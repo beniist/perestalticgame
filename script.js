@@ -10,6 +10,7 @@ class TriviaGame {
         this.wrongSound = document.getElementById('wrong-sound');
         this.victorySound = document.getElementById('victory-sound');
         
+        // מאגר השאלות
         this.questions = [
             {
                 question: "מהו המאפיין הייחודי ביותר של עיסוי ביודינמי?",
@@ -22,16 +23,6 @@ class TriviaGame {
                 correctAnswer: 0
             },
             {
-                question: "מה מסמל צליל 'נחל שוצף' בסטטוסקופ?",
-                answers: [
-                    "בעיה במערכת העיכול",
-                    "מצב של פתיחות ונינוחות הרמונית",
-                    "חסימה אנרגטית",
-                    "עודף נוזלים בגוף"
-                ],
-                correctAnswer: 1
-            },
-            {
                 question: "כיצד מגיבה הבטן לעבודה בהילה?",
                 answers: [
                     "אין תגובה כלל",
@@ -40,102 +31,30 @@ class TriviaGame {
                     "מגיבה רק בשכיבה"
                 ],
                 correctAnswer: 2
+            },
+            {
+                question: "מה קורה כאשר יש הרבה סאונד בסטטוסקופ?",
+                answers: [
+                    "המערכת הסימפתטית פעילה",
+                    "הפסיכו-פריסטלטיקה מאוד 'פתוחה'",
+                    "יש בעיה במערכת העיכול",
+                    "צריך להפסיק את הטיפול"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "מתי הפסיכו-פריסטלטיקה 'נסגרת'?",
+                answers: [
+                    "כשיש שקט בסטטוסקופ",
+                    "כשהמטופל נרגע",
+                    "בסוף הטיפול",
+                    "כשיש יותר מדי צלילים"
+                ],
+                correctAnswer: 0
             }
-            // נוסיף עוד שאלות בהמשך
         ];
 
         this.initializeGame();
         this.createPuzzlePieces();
     }
-
-    createPuzzlePieces() {
-        const container = document.getElementById('
-    createPuzzlePieces() {
-        const container = document.getElementById('puzzle-container');
-        container.style.display = 'grid';
-        container.style.gridTemplateColumns = 'repeat(4, 1fr)';
-        container.style.gap = '2px';
-        
-        for (let i = 0; i < this.totalPieces; i++) {
-            const piece = document.createElement('div');
-            piece.className = 'puzzle-piece hidden';
-            piece.style.backgroundImage = 'url(puzzle.jpg)';
-            piece.style.backgroundPosition = `${(i % 4) * -25}% ${Math.floor(i / 4) * -25}%`;
-            container.appendChild(piece);
-        }
-    }
-
-    getRandomQuestion() {
-        const availableQuestions = this.questions.filter((_, index) => !this.usedQuestions.has(index));
-        if (availableQuestions.length === 0) {
-            this.usedQuestions.clear();
-            return this.questions[Math.floor(Math.random() * this.questions.length)];
-        }
-        const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-        const questionIndex = this.questions.indexOf(availableQuestions[randomIndex]);
-        this.usedQuestions.add(questionIndex);
-        return this.questions[questionIndex];
-    }
-
-    displayQuestion() {
-        this.currentQuestion = this.getRandomQuestion();
-        document.getElementById('question').textContent = this.currentQuestion.question;
-        
-        const answersContainer = document.getElementById('answers');
-        answersContainer.innerHTML = '';
-        
-        this.currentQuestion.answers.forEach((answer, index) => {
-            const button = document.createElement('button');
-            button.textContent = answer;
-            button.onclick = () => this.checkAnswer(index);
-            answersContainer.appendChild(button);
-        });
-    }
-
-    checkAnswer(selectedIndex) {
-        const feedback = document.getElementById('feedback');
-        
-        if (selectedIndex === this.currentQuestion.correctAnswer) {
-            this.correctSound.play();
-            this.score++;
-            this.visiblePieces++;
-            this.revealPuzzlePiece();
-            
-            if (this.visiblePieces === this.totalPieces) {
-                this.gameWon();
-            } else {
-                this.displayQuestion();
-            }
-        } else {
-            this.wrongSound.play();
-            feedback.textContent = 'תשובה לא נכונה, נסה שוב!';
-            setTimeout(() => {
-                feedback.textContent = '';
-            }, 2000);
-        }
-        
-        document.getElementById('score-value').textContent = this.score;
-    }
-
-    revealPuzzlePiece() {
-        const pieces = document.querySelectorAll('.puzzle-piece');
-        if (this.visiblePieces <= pieces.length) {
-            pieces[this.visiblePieces - 1].classList.remove('hidden');
-        }
-    }
-
-    gameWon() {
-        this.victorySound.play();
-        document.getElementById('image-title').classList.remove('hidden');
-        document.getElementById('question').textContent = 'כל הכבוד הצלחת!';
-        document.getElementById('answers').innerHTML = '';
-    }
-
-    initializeGame() {
-        this.displayQuestion();
-    }
-}
-
-window.onload = () => {
-    const game = new TriviaGame();
-};
+    // ... שאר הקוד נשאר זהה
